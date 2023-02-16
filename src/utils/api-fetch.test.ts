@@ -12,7 +12,7 @@ describe('getRateOf', () => {
     const data = await getRateOf(currency);
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(global.fetch).toHaveBeenCalledWith(`http://api.nbp.pl/api/exchangerates/rates/a/${currency}/?format=json`);
+    expect(global.fetch).toHaveBeenCalledWith(`https://api.nbp.pl/api/exchangerates/rates/a/${currency}/?format=json`);
 
     expect(data).toEqual(expectedData);
   });
@@ -33,10 +33,10 @@ describe('getRateOf', () => {
 
     expect(global.fetch).toHaveBeenCalledTimes(2);
     expect((global.fetch as any).mock.calls[0][0]).toEqual(
-      `http://api.nbp.pl/api/exchangerates/rates/a/${currency}/?format=json`,
+      `https://api.nbp.pl/api/exchangerates/rates/a/${currency}/?format=json`,
     );
     expect((global.fetch as any).mock.calls[1][0]).toEqual(
-      `http://api.nbp.pl/api/exchangerates/rates/b/${currency}/?format=json`,
+      `https://api.nbp.pl/api/exchangerates/rates/b/${currency}/?format=json`,
     );
 
     expect(data).toEqual(expectedData);
@@ -51,10 +51,10 @@ describe('getRateOf', () => {
 
     expect(global.fetch).toHaveBeenCalledTimes(2);
     expect((global.fetch as any).mock.calls[0][0]).toEqual(
-      `http://api.nbp.pl/api/exchangerates/rates/a/${currency}/?format=json`,
+      `https://api.nbp.pl/api/exchangerates/rates/a/${currency}/?format=json`,
     );
     expect((global.fetch as any).mock.calls[1][0]).toEqual(
-      `http://api.nbp.pl/api/exchangerates/rates/b/${currency}/?format=json`,
+      `https://api.nbp.pl/api/exchangerates/rates/b/${currency}/?format=json`,
     );
   });
 });

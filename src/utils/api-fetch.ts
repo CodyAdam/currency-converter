@@ -1,4 +1,4 @@
-export const API_URL = 'http://api.nbp.pl/api/exchangerates/rates';
+export const API_URL = 'https://api.nbp.pl/api/exchangerates/rates';
 
 export const getRateOf = async (currency: string) => {
   let response = await fetch(`${API_URL}/a/${currency}/?format=json`);
