@@ -3,7 +3,7 @@
 </h1>
 
 <p align="center">
-A simple currency converter made with <a href="https://nodejs.org/en/">Node.js</a>
+A simple currency converter with real-time rates created using <a href="https://nodejs.org/en/">Node.js</a>
 </p>
 <h3 align="center">
 Try it <a href="https://currency.codyadm.com/">here</a>!
