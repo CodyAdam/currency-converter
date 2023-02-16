@@ -27,48 +27,45 @@ export default function Converter() {
   });
 
   useEffect(() => {
-    if (shouldUpdatePrice1) updatePrice1FromPrice2();
-    if (shouldUpdatePrice2) updatePrice2FromPrice1();
-  }, [rates]);
-  
-  function updatePrice1FromPrice2() {
-    if (!rates.has(currency1) || !rates.has(currency2)) return;
-    setPrice1((price2 * rates.get(currency2)!) / rates.get(currency1)!);
+    console.log('rates changed');
+    if (shouldUpdatePrice1) setPrice2ThenPrice1(price2);
+    if (shouldUpdatePrice2) setPrice1ThenPrice2(price1);
     setShouldUpdatePrice1(false);
-  }
-  
-  function updatePrice2FromPrice1() {
-    if (!rates.has(currency1) || !rates.has(currency2)) return;
-    setPrice2((price1 * rates.get(currency1)!) / rates.get(currency2)!);
     setShouldUpdatePrice2(false);
-  }
+  }, [rates]);
 
   useEffect(() => {
+    console.log('currency1 changed');
     setShouldUpdatePrice2(true);
     mutationAddRates.mutate(currency1);
   }, [currency1]);
 
   useEffect(() => {
+    console.log('currency2 changed');
     setShouldUpdatePrice1(true);
     mutationAddRates.mutate(currency2);
   }, [currency2]);
 
-  useEffect(() => {
-    updatePrice2FromPrice1();
-  }, [price1]);
+  function setPrice2ThenPrice1(newValue: number) {
+    setPrice2(newValue);
+    if (!rates.has(currency1) || !rates.has(currency2)) return;
+    setPrice1((newValue * rates.get(currency2)!) / rates.get(currency1)!);
+  }
 
-  useEffect(() => {
-    updatePrice1FromPrice2();
-  }, [price2]);
+  function setPrice1ThenPrice2(newValue: number) {
+    setPrice1(newValue);
+    if (!rates.has(currency1) || !rates.has(currency2)) return;
+    setPrice2((newValue * rates.get(currency1)!) / rates.get(currency2)!);
+  }
 
   return (
     <div className='flex flex-col items-center justify-center h-full p-5'>
       <div className='absolute right-0'>
         <RatesDisplay rates={rates} />
       </div>
-      <div className='backdrop-blur-sm bg-white/50 p-8 rounded-3xl border  shadow-xl flex gap-3 flex-col items-center w-full max-w-sm'>
-        {rates.get(currency1) && rates.get(currency2) && (
-          <h1 className='flex items-center justify-center gap-3 pb-3 text-xl'>
+      <div className='backdrop-blur-sm bg-white/50 p-8 rounded-3xl border  shadow-xl flex gap-3 flex-col items-center w-full max-w-sm '>
+        {!isNaN(price1) && !isNaN(price2) && rates.get(currency1) && rates.get(currency2) && (
+          <h1 className='flex flex-wrap items-center justify-center gap-3 leading-3 pb-3 text-xl overflow-hidden w-full'>
             <div className='font-semibold text-right'>
               {price1.toFixed(2)} {currency1}
             </div>
@@ -80,7 +77,7 @@ export default function Converter() {
         )}
         <CurrencyInput
           value={Math.round(price1 * 100000) / 100000}
-          setValue={(newValue) => setPrice1(newValue)}
+          setValue={(newValue) => setPrice1ThenPrice2(newValue)}
           currency={currency1}
           setCurrency={(newCurrency) => setCurrency1(newCurrency)}
           errorMessage={
@@ -96,7 +93,7 @@ export default function Converter() {
         )}
         <CurrencyInput
           value={Math.round(price2 * 100000) / 100000}
-          setValue={(newValue) => setPrice2(newValue)}
+          setValue={(newValue) => setPrice2ThenPrice1(newValue)}
           currency={currency2}
           setCurrency={(newCurrency) => setCurrency2(newCurrency)}
           errorMessage={

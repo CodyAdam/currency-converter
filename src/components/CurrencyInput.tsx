@@ -14,23 +14,11 @@ export default function CurrencyInput({
   setCurrency: (currency: string) => void;
   errorMessage?: string;
 }) {
-  const [strValue, setStrValue] = useState(value.toString());
   const [valid, setValid] = useState(true);
 
   useEffect(() => {
-    setStrValue(value.toString());
+    if (!valid && !isNaN(value)) setValid(true);
   }, [value]);
-
-  useEffect(() => {
-    // update parent value if strValue is a valid number
-    const asNumber = parseFloat(strValue);
-    if (isNaN(asNumber) || asNumber < 0) {
-      setValid(false);
-      return;
-    }
-    setValue(asNumber);
-    setValid(true);
-  }, [strValue]);
 
   return (
     <div className='w-full'>
@@ -47,8 +35,18 @@ export default function CurrencyInput({
             !valid ? 'border-red-500 text-red-700 bg-red-100 placeholder:text-red-700' : 'border-gray-300 '
           }`}
           placeholder='Type a price'
-          value={strValue}
-          onChange={(e) => setStrValue(e.target.value)}
+          value={value || ''}
+          onChange={(e) => {
+            const newValue = parseFloat(e.target.value);
+            if (isNaN(newValue) || newValue < 0) {
+              setValid(false);
+              setValue(NaN);
+              return;
+            }
+
+            setValue(newValue);
+            setValid(true);
+          }}
         />
         <div className='absolute inset-y-0 right-0 flex items-center'>
           <label className='sr-only'>Currency</label>
