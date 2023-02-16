@@ -13,6 +13,8 @@ export default function Converter() {
   const [price2, setPrice2] = useState(0);
   const [currency2, setCurrency2] = useState('EUR');
   const [rates, setRates] = useState(new Map<string, number>());
+  const [shouldUpdatePrice1, setShouldUpdatePrice1] = useState(true);
+  const [shouldUpdatePrice2, setShouldUpdatePrice2] = useState(true);
   const mutationAddRates = useMutation({
     mutationFn: async (currency: string) => {
       const data = await getRateOf(currency);
@@ -24,22 +26,31 @@ export default function Converter() {
     },
   });
 
+  useEffect(() => {
+    if (shouldUpdatePrice1) updatePrice1FromPrice2();
+    if (shouldUpdatePrice2) updatePrice2FromPrice1();
+  }, [rates]);
+  
   function updatePrice1FromPrice2() {
     if (!rates.has(currency1) || !rates.has(currency2)) return;
     setPrice1((price2 * rates.get(currency2)!) / rates.get(currency1)!);
+    setShouldUpdatePrice1(false);
   }
-
+  
   function updatePrice2FromPrice1() {
     if (!rates.has(currency1) || !rates.has(currency2)) return;
     setPrice2((price1 * rates.get(currency1)!) / rates.get(currency2)!);
+    setShouldUpdatePrice2(false);
   }
 
   useEffect(() => {
-    mutationAddRates.mutate(currency1, { onSuccess: () => updatePrice2FromPrice1() });
+    setShouldUpdatePrice2(true);
+    mutationAddRates.mutate(currency1);
   }, [currency1]);
 
   useEffect(() => {
-    mutationAddRates.mutate(currency2, { onSuccess: () => updatePrice1FromPrice2() });
+    setShouldUpdatePrice1(true);
+    mutationAddRates.mutate(currency2);
   }, [currency2]);
 
   useEffect(() => {
@@ -68,7 +79,7 @@ export default function Converter() {
           </h1>
         )}
         <CurrencyInput
-          value={price1}
+          value={Math.round(price1 * 100000) / 100000}
           setValue={(newValue) => setPrice1(newValue)}
           currency={currency1}
           setCurrency={(newCurrency) => setCurrency1(newCurrency)}
@@ -84,7 +95,7 @@ export default function Converter() {
           <MdiCompareVertical className='h-6 w-6 mt-5 text-blue-500' />
         )}
         <CurrencyInput
-          value={price2}
+          value={Math.round(price2 * 100000) / 100000}
           setValue={(newValue) => setPrice2(newValue)}
           currency={currency2}
           setCurrency={(newCurrency) => setCurrency2(newCurrency)}
