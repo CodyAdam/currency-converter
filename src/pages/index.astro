@@ -1,15 +1,41 @@
 ---
+import App from '../components/App';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<html lang='en' class='h-full'>
+  <head>
+    <meta charset='utf-8' />
+    <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+    <meta name='viewport' content='width=device-width' />
+    <meta name='generator' content={Astro.generator} />
+    <title>Currency Converter</title>
+  </head>
+  <body class='h-full bg-pattern'>
+    <App client:load />
+    <footer
+      class='absolute bottom-0 left-0 right-0 p-5 flex-col text-center gap-2 text-zinc-700 flex items-center justify-center'
+    >
+      <div class='bg-white'>
+        Made with 💛 by <a
+          href='https://github.com/CodyAdam'
+          target='_blank'
+          rel='noopener noreferrer'
+          class='text-blue-500 font-semibold'>Cody</a
+        >
+      </div>
+      <div class='bg-white text-xs opacity-50'>
+        currency rates provided by <a href='http://api.nbp.pl/en.html' class='text-blue-500' target='_blank'
+          >api.nbp.pl</a
+        >
+      </div>
+    </footer>
+  </body>
+  <style>
+    .bg-pattern {
+      background-color: #ff2424;
+      background-image: radial-gradient(#b2b3b8 1px, transparent 1px), radial-gradient(#b2b3b8 1px, #ffffff 1px);
+      background-size: 40px 40px;
+      background-position: 0 0, 20px 20px;
+    }
+  </style>
 </html>
