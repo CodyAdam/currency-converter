@@ -1,16 +1,11 @@
-import { QueryClient, useMutation } from '@tanstack/react-query';
-import { QueryClientProvider } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { getRateOf } from '../utils/api-fetch';
 import { currencies } from '../utils/currencies';
 import CurrencyInput from './CurrencyInput';
 import MdiCompareVertical from './icons/MdiCompareVertical';
 import SvgSpinners90RingWithBg from './icons/SvgSpinners90RingWithBg';
 import RatesDisplay from './RatesDisplay';
-
-const API_URL = 'http://api.nbp.pl/api/exchangerates/rates';
-// http://api.nbp.pl/api/exchangerates/rates/a/gbp/?format=json
-// response :
-// {"table":"A","currency":"funt szterling","code":"GBP","rates":[{"no":"033/A/NBP/2023","effectiveDate":"2023-02-16","mid":5.3772}]}
 
 export default function Converter() {
   const [price1, setPrice1] = useState(0);
@@ -20,9 +15,7 @@ export default function Converter() {
   const [rates, setRates] = useState(new Map<string, number>());
   const mutationAddRates = useMutation({
     mutationFn: async (currency: string) => {
-      let response = await fetch(`${API_URL}/a/${currency}/?format=json`);
-      if (!response.ok) response = await fetch(`${API_URL}/b/${currency}/?format=json`);
-      const data = await response.json();
+      const data = await getRateOf(currency);
       setRates((prevRates) => {
         const newRates = new Map(prevRates);
         newRates.set(currency, data.rates[0].mid);

@@ -1,13 +1,20 @@
+Try it now : [currency.codyadm.com](https://currency.codyadm.com/)
+
 # Currency Converter
 
-A simple node currency converter built using TypeScript with Astro, React and Tailwind CSS. 
+A simple currency converter made with [Node.js](https://nodejs.org/en/)
+![banner](doc/banner.png)
 
-## External libraries used
+## Tech Stack
 
+- [Astro](https://astro.build/) for static site generation
+- [TypeScript](https://www.typescriptlang.org/) for type safety
 - [React](https://reactjs.org/) for UI
 - [Tailwind CSS](https://tailwindcss.com/) for styling
 - [React Query](https://react-query.tanstack.com/) for data fetching
-
+- [Common Currencies](https://github.com/moonshot-partners/common-currencies/) for currency data
+- [api.nbp.pl API](https://api.nbp.pl/) for currency rates
+- [Jest](https://jestjs.io/) for testing
 
 ## 🚀 Project Structure
 
