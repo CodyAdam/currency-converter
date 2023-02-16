@@ -1,11 +1,17 @@
-Try it now : [currency.codyadm.com](https://currency.codyadm.com/)
+<h1 align="center">
+🪙 Currency Converter
+</h1>
 
-# Currency Converter
+<p align="center">
+A simple currency converter made with <a href="https://nodejs.org/en/">Node.js</a>
+</p>
+<h3 align="center">
+Try it <a href="https://currency.codyadm.com/">here</a>!
+</h3>
 
-A simple currency converter made with [Node.js](https://nodejs.org/en/)
 ![banner](doc/banner.png)
 
-## Tech Stack
+## ✨ Tech Stack
 
 - [Astro](https://astro.build/) for static site generation
 - [TypeScript](https://www.typescriptlang.org/) for type safety
@@ -14,7 +20,10 @@ A simple currency converter made with [Node.js](https://nodejs.org/en/)
 - [React Query](https://react-query.tanstack.com/) for data fetching
 - [Common Currencies](https://github.com/moonshot-partners/common-currencies/) for currency data
 - [api.nbp.pl API](https://api.nbp.pl/) for currency rates
-- [Jest](https://jestjs.io/) for testing
+- [Jest](https://jestjs.io/) for testing 
+
+![](https://img.shields.io/badge/tests-3%20passed%2C%200%20failed-green)
+
 
 ## 🚀 Project Structure
 
@@ -51,3 +60,4 @@ All commands are run from the root of the project, from a terminal:
 | `npm run dev`     | Starts local dev server at `localhost:3000`  |
 | `npm run build`   | Build your production site to `./dist/`      |
 | `npm run preview` | Preview your build locally, before deploying |
+| `npm run test`    | Run tests                                    |
